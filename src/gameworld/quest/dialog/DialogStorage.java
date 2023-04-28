@@ -41,7 +41,7 @@ abstract public class DialogStorage {
     public static String[] NPCComments;
     public static String[] TheGroveSecret;
     public static String[] Nietzsche;
-
+    public static String[] Credits;
     public static void loadDialogs() {
         try {
             Tutorial = loadDialogByNameQUEST("Tutorial");
@@ -52,6 +52,7 @@ abstract public class DialogStorage {
             NPCComments = loadDialogByNameMISC("VillagerComments");
             TheGroveSecret = loadDialogByNameQUEST("TheGroveSecret");
             Nietzsche = loadDialogByNameQUEST("Nietzsche");
+            Credits = loadDialogByNameMISC("credits");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

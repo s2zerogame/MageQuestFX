@@ -99,6 +99,7 @@ public class UI_SkillPanel {
         allSkills[20] = new SKL_FlameWhirl(mg);
         hideSkillPanelCollision();
         mg.sBar.showNoticeAbilities = false;
+        addSKill(new SKL_AutoShot(mg));
     }
 
 

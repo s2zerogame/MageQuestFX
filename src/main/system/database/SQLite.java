@@ -235,6 +235,7 @@ public class SQLite {
             saveSkillPanel();
             saveQuests();
             saveSettings();
+            mg.gameStatistics.saveGameStatistics(PLAYER_SAVE);
             for (Map map : mg.wControl.MAPS) {
                 if (map.gameMapType == GameMapType.MapCover) {
                     map.saveMapCover();
@@ -1036,6 +1037,8 @@ public class SQLite {
             System.out.println("MAP COVER RESET");
             resetSKills();
             System.out.println("SKILLS RESET");
+            mg.gameStatistics.resetGameStatistics(PLAYER_SAVE);
+            System.out.println("GAME STATS RESET");
             mg.player.spawnLevel = 0;
             mg.player.experience = 0;
             mg.player.coins = 0;
@@ -1045,6 +1048,7 @@ public class SQLite {
             throw new RuntimeException(e);
         }
     }
+
 
     private void resetSKills() throws SQLException {
         String sql = "UPDATE SKL_Skills SET skill_index = ? WHERE _ROWID_ = ?";

@@ -117,6 +117,8 @@ public class MiniMap {
 
         gc.drawImage(miniMapFrame, 1_649, 20);
     }
+
+
 }
 
 

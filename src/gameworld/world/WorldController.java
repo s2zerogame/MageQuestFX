@@ -47,6 +47,7 @@ import java.util.HashMap;
 public class WorldController {
     private final MainGame mg;
     public static Zone currentWorld = Zone.Woodland_Edge;
+    private State currentState;
     public static NPCScript currentScript = null;
     public static int[][] currentMapCover;
     public HashMap<Zone, Boolean> playerHasEnteredZone = new HashMap<>();
@@ -73,7 +74,7 @@ public class WorldController {
     }
 
     public void loadMap(Zone zone, int xTile, int yTile) {
-        State currentState = mg.gameState;
+        currentState = mg.gameState;
         mg.gameState = State.LOADING_SCREEN;
         for (Map map : MAPS) {
             if (map.zone == zone) {

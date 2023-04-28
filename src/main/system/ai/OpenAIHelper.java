@@ -38,7 +38,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class OpenAIHelper {
-    public static final String API_KEY = "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";
+    public static final String API_KEY = "nope";
     private static final ExecutorService executorService = Executors.newFixedThreadPool(1);
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/completions";
 
@@ -97,4 +97,6 @@ public class OpenAIHelper {
             throw new IllegalArgumentException("Invalid JSON response or unable to find the generated text.");
         }
     }
+
+
 }

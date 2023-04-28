@@ -66,6 +66,7 @@ import main.system.rendering.WorldEnhancements;
 import main.system.rendering.WorldRender;
 import main.system.savegame.LoadGameState;
 import main.system.sound.Sound;
+import main.system.statistics.GameStatistics;
 import main.system.ui.Effects;
 import main.system.ui.FonT;
 import main.system.ui.UI;
@@ -92,6 +93,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+
 
 public class MainGame {
 
@@ -178,6 +180,7 @@ public class MainGame {
     public RandomMap generator;
     public SecureRandom secureRandom;
     public StatusMessage statusMessage;
+    public GameStatistics gameStatistics;
 
     /**
      * Main class for the game logic and center point for information
@@ -242,6 +245,7 @@ public class MainGame {
                         synchronized (PROXIMITY_ENTITIES) {
                             proximitySorterENTITIES();
                         }
+                        gameStatistics.updateGameStatistics();
                         tileBase.getNearbyTiles();
                         sound.update();
                         difference1 = 0;
@@ -320,7 +324,7 @@ public class MainGame {
             gc.setEffect(dark);
          */
         //Debug
-        long drawStart = System.nanoTime();
+        //long drawStart = System.nanoTime();
         //RENDER START
         if (gameState == State.PLAY || gameState == State.OPTION) {
             wRender.draw(gc);
@@ -387,7 +391,7 @@ public class MainGame {
             gc.setFont(FonT.minecraftBold30);
             gc.setFill(Color.BLACK);
             gc.setFont(ui.maruMonica30);
-            gc.fillText(("Draw Time" + (System.nanoTime() - drawStart)), 500, 600);
+            //gc.fillText(("Draw Time" + (System.nanoTime() - drawStart)), 500, 600);
             gc.fillText((int) (Player.worldX + 24) / 48 + " " + (int) (Player.worldY + 24) / 48, 500, 700);
             gc.fillText(String.valueOf(TileBasedEffects.activeTile), 500, 750);
             if (CHEATS) {
@@ -406,92 +410,87 @@ public class MainGame {
      * @param gc gc
      */
     private void loadGame(GraphicsContext gc) {
-        int[][] arr = new int[1000][1000];
+        gameStatistics = new GameStatistics(this);
+        sqLite = new SQLite(this);
+        sqLite.getConnection();
+        dropManager = new DropManager(this);
+        FonT.minecraftBold30 = Font.loadFont(FonT.class.getResourceAsStream("/Fonts/MinecraftBold-nMK1.otf"), 30);
+        loadGameState = new LoadGameState(this);
+        generator = new RandomMap(this);
+        ProjectilePreloader.load();
+        EntityPreloader.load();
+        tileBase = new TileBasedEffects(this);
+        qPanel = new UI_QuestPanel(this);
+        sBar = new UI_SkillBar(this);
+        wAnim = new WorldEnhancements(this);
+        skillPanel = new UI_SkillPanel(this);
+        ui.updateLoadingScreen(12, gc);
+        secureRandom = new SecureRandom();
+        long seed = secureRandom.nextLong();
+        random = new Random(seed);
+        statusMessage = new StatusMessage(this);
+        // 0 %
+        playerPrompts = new PlayerPrompts(this);
+        sound = new Sound(this);
+        sound.loadSounds();
+        inventP = new UI_InventoryPanel(this);
+        wControl = new WorldController(this);
 
-        {
-            sqLite = new SQLite(this);
-            sqLite.getConnection();
-            dropManager = new DropManager(this);
-            FonT.minecraftBold30 = Font.loadFont(FonT.class.getResourceAsStream("/Fonts/MinecraftBold-nMK1.otf"), 30);
-            loadGameState = new LoadGameState(this);
-            generator = new RandomMap(this);
-            generator.myBFS(arr, 0, 0);
-            ProjectilePreloader.load();
-            EntityPreloader.load();
-            tileBase = new TileBasedEffects(this);
-            qPanel = new UI_QuestPanel(this);
-            sBar = new UI_SkillBar(this);
-            wAnim = new WorldEnhancements(this);
-            skillPanel = new UI_SkillPanel(this);
-            ui.updateLoadingScreen(12, gc);
-            secureRandom = new SecureRandom();
-            long seed = secureRandom.nextLong();
-            random = new Random(seed);
-            statusMessage = new StatusMessage(this);
-            // 0 %
-            playerPrompts = new PlayerPrompts(this);
-            sound = new Sound(this);
-            sound.loadSounds();
-            inventP = new UI_InventoryPanel(this);
-            wControl = new WorldController(this);
+        //12 %
+        ui.updateLoadingScreen(24, gc);
+        // ob_control = new OBJ_Control(this);
+        wRender = new WorldRender(this);
+        wControl.loadWorldData();
+        //  wControl.makeOverWorldQuadrants();
+        talentP = new UI_TalentPanel(this);
+        DialogStorage.loadDialogs();
 
-            //12 %
-            ui.updateLoadingScreen(24, gc);
-            // ob_control = new OBJ_Control(this);
-            wRender = new WorldRender(this);
-            wControl.loadWorldData();
-            //  wControl.makeOverWorldQuadrants();
-            talentP = new UI_TalentPanel(this);
-            DialogStorage.loadDialogs();
+        //24%
+        ui.updateLoadingScreen(36, gc);
+        miniM = new MiniMap(this);
+        ent_control = new ENT_Control(this);
+        collisionChecker = new CollisionChecker(this);
 
-            //24%
-            ui.updateLoadingScreen(36, gc);
-            miniM = new MiniMap(this);
-            ent_control = new ENT_Control(this);
-            collisionChecker = new CollisionChecker(this);
+        //36%
+        ui.updateLoadingScreen(48, gc);
+        imageSto = new Storage();
+        imageSto.loadImages();
+        prj_control = new PRJ_Control(this);
+        player = new Player(this);
 
-            //36%
-            ui.updateLoadingScreen(48, gc);
-            imageSto = new Storage();
-            imageSto.loadImages();
-            prj_control = new PRJ_Control(this);
-            player = new Player(this);
+        //48%
+        ui.updateLoadingScreen(58, gc);
+        sqLite.readAllGameData();
+        talentP.assignDescriptions();
+        //60%
+        ui.updateLoadingScreen(70, gc);
+        ENTPlayer2 = new ENT_Player2(this);
+        talentP.createTalentNodes();
+        //72%
+        ui.updateLoadingScreen(82, gc);
+        pathF = new PathFinder(this);
+        pathF.instantiateNodes();
+        Effects.loadEffects();
 
-            //48%
-            ui.updateLoadingScreen(58, gc);
-            sqLite.readAllGameData();
-            talentP.assignDescriptions();
-            //60%
-            ui.updateLoadingScreen(70, gc);
-            ENTPlayer2 = new ENT_Player2(this);
-            talentP.createTalentNodes();
-            //72%
-            ui.updateLoadingScreen(82, gc);
-            pathF = new PathFinder(this);
-            pathF.instantiateNodes();
-            Effects.loadEffects();
-
-            //84%
-            ui.updateLoadingScreen(94, gc);
-            //multiplayer = new Multiplayer(this, ENTPlayer2);
-            npcControl = new NPC_Control(this);
-            gameMap = new GameMap(this);
-            FonT.loadFonts();
-            //100%
-            //sqLite.resetGame();
-            loadGameState.loadGame();
-            ui.updateLoadingScreen(100, gc);
-            countItems();
-            gameMap.getImage();
-            gameState = State.TITLE;
-            sound.setVolumeMusic(ui.musicSlider);
-            sound.setVolumeAmbience(ui.ambientSlider);
-            sound.setVolumeEffects(ui.effectsSlider);
-            startThreads();
-            sound.INTRO.setCycleCount(MediaPlayer.INDEFINITE);
-            sound.INTRO.play();
-        }
-        debug();
+        //84%
+        ui.updateLoadingScreen(94, gc);
+        //multiplayer = new Multiplayer(this, ENTPlayer2);
+        npcControl = new NPC_Control(this);
+        gameMap = new GameMap(this);
+        FonT.loadFonts();
+        //100%
+        gameState = State.TITLE;
+        //sqLite.resetGame();
+        loadGameState.loadGame();
+        ui.updateLoadingScreen(100, gc);
+        countItems();
+        gameMap.getImage();
+        sound.setVolumeMusic(ui.musicSlider);
+        sound.setVolumeAmbience(ui.ambientSlider);
+        sound.setVolumeEffects(ui.effectsSlider);
+        startThreads();
+        sound.INTRO.setCycleCount(MediaPlayer.INDEFINITE);
+        sound.INTRO.play();
     }
 
     private void debug() {
@@ -538,7 +537,7 @@ public class MainGame {
         // inventP.bag_Slots.get(4).item = DRP_DroppedItem.cloneItemWithLevelQuality(BAGS.get(1), 100, 60);
         //ENTITIES.add(new ENT_Shooter(this, 35 * 48, 19 * 48, 111));
         // wControl.loadMap(Zone.Woodland_Edge, 74, 84);
-        wControl.loadMap(Zone.Hillcrest, 30, 21);
+        wControl.loadMap(Zone.Goblin_Cave, 51, 63);
         ENTITIES.add(new ENT_SkeletonWarrior(this, 160 * 48, 160 * 48, 2, Zone.The_Grove));
         for (int i = 0; i < 50; i++) {
             //  ENTITIES.add(new ENT_SkeletonSpearman(this, 56 * 48, 24 * 48, 30, Zone.Hillcrest));

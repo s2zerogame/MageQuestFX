@@ -272,6 +272,7 @@ public class LoadGameState {
             mg.sqLite.readPlayerInventory(stmt);
             mg.sqLite.readPlayerBags(stmt);
             mg.player.updateEquippedItems();
+            mg.gameStatistics.loadGameStatistics(SQLite.PLAYER_SAVE);
             mg.player.setHealth(mg.player.maxHealth);
             mg.player.setMana(mg.player.maxMana);
         } catch (SQLException e) {

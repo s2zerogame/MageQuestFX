@@ -181,15 +181,19 @@ public class Player extends ENTITY {
         int worldSize = (mg.wRender.worldSize.x - 1) * 48;
         if (!stunned && mg.inputH.leftPressed && worldX > 0 + playerMovementSpeed && !mg.collisionChecker.checkPlayerLeft()) {
             worldX -= playerMovementSpeed;
+            mg.gameStatistics.updateDistanceTravelled(playerMovementSpeed);
         }
         if (!stunned && mg.inputH.upPressed && worldY > 0 + playerMovementSpeed && !mg.collisionChecker.checkPlayerUp()) {
             worldY -= playerMovementSpeed;
+            mg.gameStatistics.updateDistanceTravelled(playerMovementSpeed);
         }
         if (!stunned && mg.inputH.downPressed && worldY < worldSize && !mg.collisionChecker.checkPlayerDown()) {
             worldY += playerMovementSpeed;
+            mg.gameStatistics.updateDistanceTravelled(playerMovementSpeed);
         }
         if (!stunned && mg.inputH.rightPressed && worldX < worldSize && !mg.collisionChecker.checkPlayerRight()) {
             worldX += playerMovementSpeed;
+            mg.gameStatistics.updateDistanceTravelled(playerMovementSpeed);
         }
     }
 

@@ -1,7 +1,7 @@
 ![Alt text](goblin_cave.png)
 
 ### To download the game head to [my itch.io page.](https://gk646.itch.io/mage-quest)
-### For support, bug reports talking head to [my discord server.](https://discord.gg/STCdEcBzUv)  
+### For support, bug reports and talking head to [my discord server.](https://discord.gg/STCdEcBzUv)  
 
 
 This is the source code of my game **Mage Quest**. This was my first real project and started only 1 1/2 months after I started learning Java so a lot
@@ -36,3 +36,7 @@ With the introduction of items I created the first sqlite database. In the curre
 ## Map Building
 
 After inital manual attempts i quickly started using [Tiled.](https://www.mapeditor.org/) Tiled offers for different export formats. I used the .csv for reading map data and the json-like .tmj for reading spawn data. As I didn't want any major dependencies I am using regex to extract the rectangle information placed inside the map editor as spawn points. This also supports setting up area spawns, type and level.
+
+## Packaging 
+
+Iam using jlink to create a custom Java Runtime Environment that includes the necessary JavaFX modules. To then pack it into a .exe i used launch4J. It allows for nice customization and options no how to build the .exe.

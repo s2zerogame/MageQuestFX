@@ -59,6 +59,8 @@ abstract public class QUEST {
     abstract public void update();
 
 
+
+
     protected void removeObjective(int index) {
         objectives[index] = null;
     }

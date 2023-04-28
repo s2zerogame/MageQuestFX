@@ -62,6 +62,7 @@ public class SKL_AutoShot extends SKILL {
         if (actualCoolDown == 30) {
             mg.PROJECTILES.add(new PRJ_AutoShot(mg.inputH.lastMousePosition.x, mg.inputH.lastMousePosition.y, weapon_damage_percent));
             actualCoolDown = 0;
+            mg.gameStatistics.updateAbilitiesUsed();
         }
     }
 }

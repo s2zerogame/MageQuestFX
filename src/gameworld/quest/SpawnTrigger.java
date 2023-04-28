@@ -93,9 +93,7 @@ public class SpawnTrigger {
                 case Mushroom:
                     mg.ENTITIES.add(new ENT_Mushroom(mg, x, y, level, zone));
                     break;
-                case WizardBoss1:
-                    break;
-                case WizardBoss2:
+                case WizardBoss1, WizardBoss2:
                     break;
                 case KnightBoss:
                     mg.ENTITIES.add(new BOSS_Knight(mg, x * 48, y * 48, level, 150, zone));
@@ -114,8 +112,8 @@ public class SpawnTrigger {
                 int worldX, worldY;
                 for (int i = 0; i < level; i++) {
                     num = Math.random();
-                    worldX = (int) ((Math.random() * width + x * 48));
-                    worldY = (int) ((Math.random() * height + y * 48));
+                    worldX = (int) (Math.random() * width + x * 48);
+                    worldY = (int) (Math.random() * height + y * 48);
                     if (num < 0.15) {
                         mg.ENTITIES.add(new ENT_SkeletonWarrior(mg, worldX, worldY, mg.player.level, zone));
                     } else if (num < 0.3) {

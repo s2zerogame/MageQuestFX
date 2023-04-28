@@ -173,10 +173,12 @@ public class Map {
                         newTriggery = Integer.parseInt(matcher.group(1));
                         xfound = false;
                         typefound = false;
-                        if (type != Type.MixedGoblin) {
-                            spawnTriggers.add(new SpawnTrigger(newTriggerx / 16, newTriggery / 16, level, Trigger.SINGULAR, type, zone, width * 3, height * 3));
-                        } else {
-                            spawnTriggers.add(new SpawnTrigger(newTriggerx / 16, newTriggery / 16, level, Trigger.SPREAD_Random, type, zone, width * 3, height * 3));
+                        if (type != null) {
+                            if (type != Type.MixedGoblin) {
+                                spawnTriggers.add(new SpawnTrigger(newTriggerx / 16, newTriggery / 16, level, Trigger.SINGULAR, type, zone, width * 3, height * 3));
+                            } else {
+                                spawnTriggers.add(new SpawnTrigger(newTriggerx / 16, newTriggery / 16, level, Trigger.SPREAD_Random, type, zone, width * 3, height * 3));
+                            }
                         }
                         type = null;
                         widthfound = false;

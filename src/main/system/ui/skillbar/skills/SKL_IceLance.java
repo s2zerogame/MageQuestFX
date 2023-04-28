@@ -110,7 +110,6 @@ public class SKL_IceLance extends SKILL {
             toolTipTimer++;
         }
     }
-
     /**
      *
      */

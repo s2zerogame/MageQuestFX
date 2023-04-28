@@ -181,6 +181,7 @@ public class PRJ_Control {
             stoneKnightKilled++;
         }
         ENEMIES_KILLED++;
+        mg.gameStatistics.updateMonstersKilled();
     }
 }
 

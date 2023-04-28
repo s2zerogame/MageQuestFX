@@ -171,6 +171,7 @@ abstract public class SKILL {
                 actualCoolDown = 0;
                 mg.player.playCastAnimation(animationNumber);
                 setAbilityKeysFalse();
+                mg.gameStatistics.updateAbilitiesUsed();
                 return true;
             } else {
                 mg.statusMessage.setOnCooldownTrue();
@@ -203,6 +204,7 @@ abstract public class SKILL {
             castTimeActive = 0;
             actualCoolDown = 0;
             setAbilityKeysFalse();
+            mg.gameStatistics.updateAbilitiesUsed();
             return true;
         }
         return false;

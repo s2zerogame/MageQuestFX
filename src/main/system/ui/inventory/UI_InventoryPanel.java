@@ -748,8 +748,8 @@ public class UI_InventoryPanel {
         gc.setFont(FonT.minecraftBold14);
         gc.fillText("Character", startX + 138, startY - 61);
         gc.fillText("Character", startX - 17, startY - 80 + 629);
-        gc.fillText("All Stats", startX + 105, startY - 80 + 629);
-        gc.fillText("Statistics", startX + 218, startY - 80 + 629);
+        gc.fillText("Statistics", startX + 105, startY - 80 + 629);
+        gc.fillText("WIP", startX + 218, startY - 80 + 629);
 
         //character image outline
         gc.setLineWidth(2);
@@ -894,6 +894,7 @@ public class UI_InventoryPanel {
         gc.fillText(text, x, y);
     }
 
+    //FIRST TAB COMBAT STATS
     private void drawCombatStats(GraphicsContext gc, int startX, int startY) {
         gc.setFill(Colors.darkBackground);
         gc.setFont(FonT.minecraftBold14);
@@ -926,6 +927,7 @@ public class UI_InventoryPanel {
         gc.setTextAlign(TextAlignment.LEFT);
     }
 
+    // SECOND TAB IN CHARACTER WINDOW
     private void drawCharacterSecondPanel(GraphicsContext gc, int startX, int startY) {
         wholeCharWindow.x = startX - 47;
         wholeCharWindow.y = startY - 78;
@@ -950,26 +952,49 @@ public class UI_InventoryPanel {
         gc.setLineWidth(4);
         gc.drawImage(character_bottom2, startX - 52, startY - 80 + 606);
         gc.setFill(Colors.darkBackground);
-        gc.setFont(FonT.minecraftBold13);
+        gc.setFont(FonT.minecraftBold14);
         gc.fillText("Character", startX + 138, startY - 61);
         gc.fillText("Character", startX - 17, startY - 80 + 629);
-        gc.fillText("Currency", startX + 100, startY - 80 + 629);
-        int y = startY + 50;
-        float[] playerEffects = mg.player.effects;
-        for (int i = 1; i < 26; i++) {
-            if (i == 23) {
-                gc.fillText(Player.effectNames[i] + playerEffects[i], 100 + startX, y);
-                y += 18;
-                continue;
-            }
-            gc.fillText(Player.effectNames[i] + playerEffects[i] + "%", 100 + startX, y);
-            y += 18;
-        }
+        gc.fillText("Statistics", startX + 103, startY - 80 + 629);
+        gc.fillText("WIP", startX + 225, startY - 80 + 629);
+
+        gc.fillText("Total Playtime: " + mg.gameStatistics.getPlayTimeFormatted(), startX + 20, startY + 50);
+        gc.fillText("Killed Monsters: " + mg.gameStatistics.getTOTAL_MONSTERS_KILLED(), startX + 20, startY + 65);
+        gc.fillText("Distance travelled: " + mg.gameStatistics.getDISTANCE_TRAVELLED(), startX + 20, startY + 80);
+        gc.fillText("Abilities used: " + mg.gameStatistics.getABILITIES_USED(), startX + 20, startY + 95);
     }
 
-
+    //FIRST TAB EFFECTS STATS (SECOND SUB TAB)
     private void drawEffects(GraphicsContext gc, int startX, int startY) {
-        gc.fillText("hello", startX + 182, startY + 420);
+        gc.setFill(Colors.darkBackground);
+        gc.setFont(FonT.minecraftBold14);
+        int yInterval = (int) (MainGame.SCREEN_HEIGHT * 0.0148f);
+        startY -= 10;
+        startX += 190;
+        double xOffset = 188;
+        gc.fillText("Arcane Dmg:", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f);
+        gc.fillText("Dark Dmg:", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + yInterval);
+        gc.fillText("Poison Dmg:", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 2 * yInterval);
+        gc.fillText("Fire Dmg:", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 3 * yInterval);
+        gc.fillText("Ice Dmg :", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 4 * yInterval);
+        gc.fillText("Magic Find", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 5 * yInterval);
+        gc.fillText("Mana Cost Reduc.", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 6 * yInterval);
+        gc.fillText("DoT Dmg:", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 7 * yInterval);
+        gc.fillText("DoT Length:", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 8 * yInterval);
+        gc.fillText("Buff Length:", startX - 5, startY + MainGame.SCREEN_HEIGHT * 0.363f + 9 * yInterval);
+        gc.setTextAlign(TextAlignment.RIGHT);
+        gc.setFont(FonT.minecraftBold16);
+        gc.fillText(mg.player.effects[1] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f);
+        gc.fillText(mg.player.effects[2] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + yInterval);
+        gc.fillText(mg.player.effects[18] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 2 * yInterval);
+        gc.fillText(mg.player.effects[19] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 3 * yInterval);
+        gc.fillText(mg.player.effects[28] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 4 * yInterval);
+        gc.fillText(mg.player.effects[27] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 5 * yInterval);
+        gc.fillText(mg.player.effects[26] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 6 * yInterval);
+        gc.fillText(mg.player.effects[4] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 7 * yInterval);
+        gc.fillText(mg.player.effects[5] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 8 * yInterval);
+        gc.fillText(mg.player.effects[3] + "%", startX + xOffset, startY + MainGame.SCREEN_HEIGHT * 0.363f + 9 * yInterval);
+        gc.setTextAlign(TextAlignment.LEFT);
     }
 
     private void drawCharacterSlots(GraphicsContext gc, int startX, int startY) {
