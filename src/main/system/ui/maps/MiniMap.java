@@ -83,7 +83,7 @@ public class MiniMap {
         gc.setFill(Colors.Red);
         final int offset = 100;
         synchronized (mg.PROXIMITY_ENTITIES) {
-            for (gameworld.entities.ENTITY entity : mg.PROXIMITY_ENTITIES) {
+            for (ENTITY entity : mg.PROXIMITY_ENTITIES) {
                 entityX = (int) ((entity.worldX + 24) / 48);
                 entityY = (int) ((entity.worldY + 24) / 48);
                 if ((entityX - xTile) < 20 && xTile - entityX <= 20 && (entityY - yTile) < 20 && yTile - entityY <= 20) {

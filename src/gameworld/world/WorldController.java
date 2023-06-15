@@ -118,7 +118,6 @@ public class WorldController {
         State currentState = mg.gameState;
         for (Map map : MAPS) {
             if (map.zone == zone) {
-                //mg.gameState = State.LOADING_SCREEN;
                 mg.wRender.worldSize = map.mapSize;
                 currentWorld = zone;
                 mg.player.map = map;
@@ -132,7 +131,6 @@ public class WorldController {
                 WorldRender.worldData2 = map.mapDataForeGround;
                 mg.wAnim.cacheMapEnhancements();
                 mg.npcControl.loadGenerics(zone);
-                mg.gameState = currentState;
                 break;
             }
         }

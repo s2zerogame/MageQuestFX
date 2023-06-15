@@ -42,14 +42,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RandomMap {
     public boolean bossKilled;
     MainGame mg;
-    ArrayList<Long> first = new ArrayList<>(), second = new ArrayList<>();
     int[] floorPaletV1_4Enhanced = new int[]{131, 132, 133, 144, 145, 146, 131, 132, 133, 131, 132, 133};
     int[] wallPaletV1_4Enhanced = new int[]{93, 107, 120, 93, 93, 93, 93, 93, 93};
     int[] wallTopPaletV1_4Enhanced = new int[]{80, 82, 80, 80, 80, 80, 80};
 
     int[] wallSidesPaletV1_4Enhanced = new int[]{182, 183};
     public boolean bossSpawned;
-    public float etherRealmProgress = 100.0f;
+    public float etherRealmProgress = 0;
     private int bossCountdown;
 
     public RandomMap(MainGame mg) {
@@ -85,8 +84,8 @@ public class RandomMap {
             map = generateMap(mapSize, roomSize, corridorLength, entranceNUm);
         }
 
-        //etherRealmProgress = 0;
         bossSpawned = false;
+        etherRealmProgress = 0;
         spawnEntities(map.mapDataBackGround, entrancePoint);
         return map;
     }

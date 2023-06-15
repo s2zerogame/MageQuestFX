@@ -201,7 +201,7 @@ public class GameMap {
         }
         // Proximity entities drawing
         synchronized (mg.PROXIMITY_ENTITIES) {
-            for (gameworld.entities.ENTITY entity : mg.PROXIMITY_ENTITIES) {
+            for (ENTITY entity : mg.PROXIMITY_ENTITIES) {
                 entityX = (int) ((entity.worldX + 24) / 48);
                 entityY = (int) ((entity.worldY + 24) / 48);
                 int y = 470 + yOffset + (entityY - yTile_i) * zoom_i;

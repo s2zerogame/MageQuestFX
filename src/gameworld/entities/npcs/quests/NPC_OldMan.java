@@ -29,6 +29,7 @@ import gameworld.entities.loadinghelper.ResourceLoaderEntity;
 import gameworld.player.Player;
 import gameworld.quest.Dialog;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import main.MainGame;
 import main.system.enums.Zone;
 
@@ -50,7 +51,7 @@ public class NPC_OldMan extends NPC {
         this.entityHeight = 48;
         this.entityWidth = 48;
         this.movementSpeed = 2;
-        this.collisionBox = new Rectangle(0, 0, 42, 42);
+        this.collisionBox = new Rectangle(0, 0, 25, 42);
         direction = "updownleftright";
     }
 
@@ -74,21 +75,21 @@ public class NPC_OldMan extends NPC {
 
     private void drawIdle(GraphicsContext gc) {
         switch (spriteCounter % 120 / 30) {
-            case 0 -> gc.drawImage(animation.idle.get(0), screenX + 17, screenY - 5);
-            case 1 -> gc.drawImage(animation.idle.get(1), screenX + 17, screenY - 5);
-            case 2 -> gc.drawImage(animation.idle.get(2), screenX + 17, screenY - 5);
-            case 3 -> gc.drawImage(animation.idle.get(3), screenX + 17, screenY - 5);
+            case 0 -> gc.drawImage(animation.idle.get(0), screenX + 15, screenY - 5);
+            case 1 -> gc.drawImage(animation.idle.get(1), screenX + 15, screenY - 5);
+            case 2 -> gc.drawImage(animation.idle.get(2), screenX + 15, screenY - 5);
+            case 3 -> gc.drawImage(animation.idle.get(3), screenX + 15, screenY - 5);
         }
     }
 
     private void drawWalk(GraphicsContext gc) {
         switch (spriteCounter % 180 / 30) {
-            case 0 -> gc.drawImage(animation.walk.get(0), screenX + 17, screenY - 5);
-            case 1 -> gc.drawImage(animation.walk.get(1), screenX + 17, screenY - 5);
-            case 2 -> gc.drawImage(animation.walk.get(2), screenX + 17, screenY - 5);
-            case 3 -> gc.drawImage(animation.walk.get(3), screenX + 17, screenY - 5);
-            case 4 -> gc.drawImage(animation.walk.get(4), screenX + 17, screenY - 5);
-            case 5 -> gc.drawImage(animation.walk.get(5), screenX + 17, screenY - 5);
+            case 0 -> gc.drawImage(animation.walk.get(0), screenX + 15, screenY - 5);
+            case 1 -> gc.drawImage(animation.walk.get(1), screenX + 15, screenY - 5);
+            case 2 -> gc.drawImage(animation.walk.get(2), screenX + 15, screenY - 5);
+            case 3 -> gc.drawImage(animation.walk.get(3), screenX + 15, screenY - 5);
+            case 4 -> gc.drawImage(animation.walk.get(4), screenX + 15, screenY - 5);
+            case 5 -> gc.drawImage(animation.walk.get(5), screenX + 15, screenY - 5);
         }
     }
 

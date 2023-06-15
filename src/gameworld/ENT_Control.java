@@ -58,7 +58,7 @@ public class ENT_Control {
     public void draw(GraphicsContext gc) {
         gc.setFont(FonT.editUndo16);
         synchronized (mg.ENTITIES) {
-            for (gameworld.entities.ENTITY entity : mg.ENTITIES) {
+            for (ENTITY entity : mg.ENTITIES) {
                 if (entity.zone == WorldController.currentWorld && Math.abs(entity.worldX - Player.worldX) + Math.abs(entity.worldY - Player.worldY) < 1_800) {
                     entity.draw(gc);
                     if (entity.hpBarOn) {

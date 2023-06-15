@@ -97,9 +97,11 @@ import java.util.Random;
 
 public class MainGame {
 
-    private static boolean CHEATS = false;
     public static int SCREEN_WIDTH = 1_920;
     public static int SCREEN_HEIGHT = 1_080;
+    public static Random random;
+    private static boolean CHEATS = false;
+    private static int WORLD_SIZE;
     public final int HALF_WIDTH;
     public final int HALF_HEIGHT;
     public final List<ENTITY> ENTITIES = Collections.synchronizedList(new ArrayList<>());
@@ -107,8 +109,6 @@ public class MainGame {
     public final List<PROJECTILE> PROJECTILES = Collections.synchronizedList(new ArrayList<>());
     public final List<ENTITY> PROXIMITY_ENTITIES = Collections.synchronizedList(new ArrayList<>());
     public final List<DamageNumber> damageNumbers = Collections.synchronizedList(new ArrayList<>());
-
-    public static Random random;
     //ITEMS
     public final List<DROP> WORLD_DROPS = Collections.synchronizedList(new ArrayList<>());
     public final ArrayList<ITEM> AMULET = new ArrayList<>();
@@ -123,16 +123,13 @@ public class MainGame {
     public final ArrayList<ITEM> TWOHANDS = new ArrayList<>();
     public final ArrayList<ITEM> BAGS = new ArrayList<>();
     public final ArrayList<ITEM> MISC = new ArrayList<>();
-
-
     public final int tileSize = 48;
     public final UI ui = new UI(this);
-
-
+    //----------SCREEN SETTINGS---------------
     //---------Input-----------
     public final GraphicsContext gc;
-    //----------SCREEN SETTINGS---------------
-
+    private final Image vignette = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/resources/ui/vignette.png")));
+    private final DayNightCycle cycle = new DayNightCycle(this);
     public String player2Information = "";
     public InputHandler inputH;
     public int playerX, playerY;
@@ -143,17 +140,13 @@ public class MainGame {
     public Player player;
     public State gameState;
     public PathFinder pathF;
-
-    private Storage imageSto;
     public SQLite sqLite;
-    private final Image vignette = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/resources/ui/vignette.png")));
     public boolean client = false, showBag, showChar, showTalents, loadingScreen, showMap;
     public PRJ_Control prj_control;
     public UI_InventoryPanel inventP;
     public UI_TalentPanel talentP;
     public NPC_Control npcControl;
     public GameMap gameMap;
-    private final DayNightCycle cycle = new DayNightCycle(this);
     public UI_SkillBar sBar;
     public UI_QuestPanel qPanel;
     public boolean credits;
@@ -167,20 +160,19 @@ public class MainGame {
     public UI_SkillPanel skillPanel;
     public boolean showJournal;
     public int cutSceneX, cutSceneY;
-
-    //---------System---------
-    private MiniMap miniM;
     //private Multiplayer multiplayer;
     public TileBasedEffects tileBase;
     public ENT_Control ent_control;
     public Sound sound;
     public PlayerPrompts playerPrompts;
-    private static int WORLD_SIZE;
     public boolean showAbilities;
     public RandomMap generator;
     public SecureRandom secureRandom;
     public StatusMessage statusMessage;
     public GameStatistics gameStatistics;
+    private Storage imageSto;
+    //---------System---------
+    private MiniMap miniM;
 
     /**
      * Main class for the game logic and center point for information
@@ -471,7 +463,6 @@ public class MainGame {
         pathF = new PathFinder(this);
         pathF.instantiateNodes();
         Effects.loadEffects();
-
         //84%
         ui.updateLoadingScreen(94, gc);
         //multiplayer = new Multiplayer(this, ENTPlayer2);
@@ -501,58 +492,24 @@ public class MainGame {
         player.weaponDamageLower = 200;
         player.maxMana = 2000;
         player.intellect = 2000;
-        for (int i = 0; i < 1; i++) {
-            //ENTITIES.add(new ENT_SkeletonWarrior(this, 58 * 48, 44 * 48, 100, Zone.Tutorial));
-        }
         player.coins = 2_000;
-        //sound.setVolumeAmbience(0);
-        //inventP.char_Slots[5].item = DRP_DroppedItem.cloneItemWithLevelQuality(TWOHANDS.get(2), 100, 60);
         sBar.skills[5] = new SKL_EnergySphere(this);
         sBar.skills[4] = new SKL_SolarFlare(this);
         sBar.skills[2] = new SKL_RegenAura(this);
         sBar.skills[0] = new SKL_PyroBlast(this);
         sBar.skills[1] = new SKL_VoidField(this);
         sBar.skills[3] = new SKL_VoidEruption(this);
-        for (SKILL skill : skillPanel.allSkills) {
-            skillPanel.addSKill(skill);
-        }
-        for (Map map : wControl.MAPS) {
-            for (int i = 0; i < map.mapSize.x; i++) {
-                for (int j = 0; j < map.mapSize.x; j++) {
-                    //map.mapCover[i][j] = 1;
-                }
-            }
-        }
+        wControl.loadMapNoDelay(Zone.Hillcrest, 89, 4);
         inventP.bag_Slots.get(2).item = DRP_DroppedItem.cloneItemWithLevelQuality(CHEST.get(8), 100, 60);
         inventP.char_Slots[8].item = DRP_DroppedItem.cloneItemWithLevelQuality(TWOHANDS.get(2), 100, 60);
         player.updateEquippedItems();
         player.maxMana = 2000;
-        for (ITEM item : CHEST) {
-            for (Float f : item.effects) {
-                if (f != 0) {
-                    System.out.println("ring" + item.name);
-                }
-            }
-        }
+
         // inventP.bag_Slots.get(4).item = DRP_DroppedItem.cloneItemWithLevelQuality(BAGS.get(1), 100, 60);
         //ENTITIES.add(new ENT_Shooter(this, 35 * 48, 19 * 48, 111));
         // wControl.loadMap(Zone.Woodland_Edge, 74, 84);
-        wControl.loadMap(Zone.Goblin_Cave, 51, 63);
-        ENTITIES.add(new ENT_SkeletonWarrior(this, 160 * 48, 160 * 48, 2, Zone.The_Grove));
-        for (int i = 0; i < 50; i++) {
-            //  ENTITIES.add(new ENT_SkeletonSpearman(this, 56 * 48, 24 * 48, 30, Zone.Hillcrest));
-        }
-        for (int i = 0; i < 20; i++) {
-            ITEM item = dropManager.getGuaranteedRandomItem(i);
-            while (!(item.type == '2' || item.type == 'O' || item.type == 'W')) {
-                item = dropManager.getGuaranteedRandomItem(5);
-            }
-            WORLD_DROPS.add(new DRP_DroppedItem((56 + i) * 48, 23 * 48, item, Zone.Hillcrest));
-        }
-        for (int i = 0; i < 2; i++) {
-            //  dropI.dropEpicItem(this, (10 - i) * 48, 85 * 48, 1, Zone.Hillcrest);
-        }
-        // ENTITIES.add(new BOS_Slime(this, 490 * 48, 490 * 48, 1, 140));
+
+
         //testRoom();
     }
 
@@ -620,11 +577,3 @@ public class MainGame {
         }
     }
 }
-
-/*
-
-
-
-
-
- */

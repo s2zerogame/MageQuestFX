@@ -1039,11 +1039,8 @@ public class SQLite {
             System.out.println("SKILLS RESET");
             mg.gameStatistics.resetGameStatistics(PLAYER_SAVE);
             System.out.println("GAME STATS RESET");
-            mg.player.spawnLevel = 0;
-            mg.player.experience = 0;
-            mg.player.coins = 0;
-            mg.talentP.pointsToSpend = 0;
-            savePlayerStats();
+            resetPlayerStats();
+            System.out.println("PLAYER STATS RESET");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -1114,6 +1111,17 @@ public class SQLite {
         }
     }
 
+    private void resetPlayerStats() throws SQLException {
+        mg.player.spawnLevel = 0;
+        mg.player.experience = 0;
+        mg.player.coins = 0;
+        mg.talentP.pointsToSpend = 0;
+        savePlayerStats();
+        String sql = "UPDATE PLAYER_STATS SET coins = 0 WHERE _ROWID_ = 2";
+        try (PreparedStatement stmt = PLAYER_SAVE.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        }
+    }
 
     private void resetMapCovers() throws SQLException {
         for (Map map : mg.wControl.MAPS) {

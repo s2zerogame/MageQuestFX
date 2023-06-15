@@ -290,7 +290,7 @@ abstract public class ENTITY {
         return this.health;
     }
 
-    abstract public void draw(GraphicsContext gc);
+    public abstract void draw(GraphicsContext gc);
 
 
     public void drawDialog(GraphicsContext gc) {

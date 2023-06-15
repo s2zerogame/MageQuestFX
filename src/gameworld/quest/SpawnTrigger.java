@@ -104,6 +104,7 @@ public class SpawnTrigger {
                 case GoblinGlobe:
                     mg.WORLD_DROPS.add(new DRP_DroppedItem(x * 48, y * 48, mg.MISC.get(5), zone));
                     break;
+
             }
             triggered = true;
         } else if (trigger == Trigger.SPREAD_Random && isPointWithinDistanceOfRectangle(500)) {
