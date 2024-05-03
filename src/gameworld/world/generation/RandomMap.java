@@ -132,6 +132,8 @@ public class RandomMap {
     }
 
     private float[][] getNoise(int size) {
+        // Include the FastNoise Java here
+        // From https://github.com/Auburn/FastNoiseLite
         FastNoiseLite fastNoise = new FastNoiseLite();
         fastNoise.SetNoiseType(FastNoiseLite.NoiseType.Value);
         fastNoise.SetFrequency(0.12f);
